@@ -277,7 +277,7 @@ let updateLocalUser = function(req,res){
 }
 
 
-let processAuthCallback = async(profileId, givenName, familyName, email, cb) => {
+let processAuthCallback = async(profileId, givenName, familyName, email, userType, cb) => {
     //if allowed account pattern or an allowed list of accounts are not configured all users are allowed
     var isAllowed = util.isNullOrUndefined(config.allowedAccountPattern) && allowedAccounts===null;
     //check the allowed pattern if defined
@@ -320,7 +320,9 @@ let processAuthCallback = async(profileId, givenName, familyName, email, cb) => 
                 accountId: profileId, 
                 familyName: familyName, 
                 givenName: givenName,
+                userEmail: email,
                 teamId: teamId,
+                userType: userType,
                 level:0
             };
             await db.getPromise(db.insertUser, user);
@@ -346,7 +348,7 @@ let getLocalStrategy = function () {
     return new LocalStrategy((username, password, cb) => {
         var user = verifyLocalUserPassword(username, password)
         if(user!==null){
-            return processAuthCallback("Local_"+username, user.givenName, user.familyName, null, cb);
+            return processAuthCallback("Local_"+username, user.givenName, user.familyName, user.userEmail,user.userType, cb);
         }
         
         return cb(null,false);
