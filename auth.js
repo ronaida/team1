@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const validator = require('validator');
 const uid = require('uid-safe');
+const emailValidator = require('deep-email-validator');
 
 const db = require(path.join(__dirname, 'db'));
 const challenges = require(path.join(__dirname, 'challenges'));
@@ -111,6 +112,10 @@ let checkCaptchaOnLogin = function(req,res,next){
     next();
 }
 
+// Check email for common typos
+async function isEmailValid(email) {
+    return emailValidator.validate(email)
+   }
 
 /**
  * Registers a user in the local directory
@@ -130,6 +135,11 @@ let registerLocalUser = function(req,res){
     var username = newUser.username;
     if(util.isNullOrUndefined(username) || validator.isAlphanumeric(username,'en-US')===false){
         return util.apiResponse(req, res, 400, "Invalid username.");
+    }
+
+    var userEmail = newUser.userEmail;
+    if(util.isNullOrUndefined(userEmail) || isEmailValid(userEmail)===false){
+        return util.apiResponse(req, res, 400, "Invalid user email.");
     }
 
     if(username in localUsers){
@@ -156,7 +166,12 @@ let registerLocalUser = function(req,res){
         return util.apiResponse(req, res, 400, "Invalid captcha.");
     }
 
-    var localUser = {"givenName":givenName,"familyName":familyName};
+    var userType = newUser.userType;
+    if(util.isNullOrUndefined(userType) || validator.matches(userType,/^[A-Z'\-\s]+$/i)===false){
+        return util.apiResponse(req, res, 400, "Invalid userType selection.");
+    }
+
+    var localUser = {"userEmail":userEmail,"givenName":givenName,"familyName":familyName,"userType":userType};
 
     createUpdateUser(req, res, username, localUser, password);
     
@@ -262,7 +277,7 @@ let updateLocalUser = function(req,res){
 }
 
 
-let processAuthCallback = async(profileId, givenName, familyName, email, cb) => {
+let processAuthCallback = async(profileId, givenName, familyName, email, userType, cb) => {
     //if allowed account pattern or an allowed list of accounts are not configured all users are allowed
     var isAllowed = util.isNullOrUndefined(config.allowedAccountPattern) && allowedAccounts===null;
     //check the allowed pattern if defined
@@ -305,7 +320,9 @@ let processAuthCallback = async(profileId, givenName, familyName, email, cb) => 
                 accountId: profileId, 
                 familyName: familyName, 
                 givenName: givenName,
+                userEmail: email,
                 teamId: teamId,
+                userType: userType,
                 level:0
             };
             await db.getPromise(db.insertUser, user);
@@ -331,7 +348,7 @@ let getLocalStrategy = function () {
     return new LocalStrategy((username, password, cb) => {
         var user = verifyLocalUserPassword(username, password)
         if(user!==null){
-            return processAuthCallback("Local_"+username, user.givenName, user.familyName, null, cb);
+            return processAuthCallback("Local_"+username, user.givenName, user.familyName, user.userEmail,user.userType, cb);
         }
         
         return cb(null,false);

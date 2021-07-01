@@ -26,8 +26,11 @@ CREATE TABLE teams (
 CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   accountId CHAR(255) NOT NULL UNIQUE,
+  userEmail CHAR(255) NOT NULL,
   teamId INTEGER unsigned,
   familyName CHAR(255),
-  givenName CHAR(255)
+  givenName CHAR(255),
+  userType CHAR(255),
+  instructorId CHAR(255)
 );
 

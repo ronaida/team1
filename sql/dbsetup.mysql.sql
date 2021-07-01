@@ -36,9 +36,12 @@ CREATE TABLE `teams` (
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'The user id',
   `accountId` varchar(255) NOT NULL COMMENT 'The user account name',
+  `userEmail` varchar(255) NOT NULL COMMENT 'The user email',
   `teamId` int(10) unsigned DEFAULT NULL COMMENT 'The id of the team the user belongs to',
   `familyName` varchar(255) DEFAULT NULL,
   `givenName` varchar(255) DEFAULT NULL,
+  `userType` varchar(255) COMMENT 'this will detrmine of the type of the user',
+  `instructorID` varchar(255) DEFAULT NULL COMMENT 'this will save the accountId of the instructor',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `account_name_UNIQUE` (`accountId`)

@@ -257,9 +257,9 @@ exports.init = async () => {
 //Creates a user in the database
 exports.insertUser = function(user,errCb,doneCb){
   var con = getConn();
-  var sql = "INSERT INTO users (id, accountId, teamId, familyName, givenName) VALUES (null, ?, ?, ?, ?)";
+  var sql = "INSERT INTO users (id, accountId, userEmail, teamId, familyName, givenName, userType, instructorID) VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
   
-  con.query(sql, [user.accountId, user.teamId, user.familyName, user.givenName], function (err, result) {
+  con.query(sql, [user.accountId, user.userEmail, user.teamId, user.familyName, user.givenName, user.userType, user.instructorID], function (err, result) {
     if (err) handleErr(errCb,err);
     else handleDone(doneCb,result);
   });

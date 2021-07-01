@@ -23,6 +23,7 @@
       $scope.register = function (){
         var newUser = {};
         newUser.username = registerUserName.value.trim();
+        newUser.userEmail = email.value.trim();
         newUser.password = registerPassword.value;
         newUser.givenName = givenName.value.trim();
         newUser.familyName = familyName.value.trim();
@@ -35,6 +36,11 @@
         if(newUser.username === ""){
           $scope.isError = true;    
           $scope.registerErrorMessage += "User name cannot be empty. ";
+        }
+
+        if(newUser.userEmail === ""){
+          $scope.isError = true;    
+          $scope.registerErrorMessage += "User email cannot be empty. ";
         }
 
         if(newUser.password === ""){
@@ -62,6 +68,13 @@
           $scope.registerErrorMessage += "Captcha cannot be empty. ";
         }
 
+        if(flexRadioDefault1.checked){
+            newUser.userType="instructor";
+          }
+        else if(flexRadioDefault2.checked){
+            newUser.userType="student";
+          }
+          
         if($scope.isError){
           return;
         }
