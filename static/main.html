@@ -207,37 +207,25 @@
                         <div class="modal-body" wfd-id="49">
                         
                             <div class="form-group" wfd-id="54">
-                                <label for="Instructor Email" wfd-id="69">Your Instructor Email:</label> 
+                                <label for="Instructor Email" wfd-id="69">Your Instructor ID:</label> 
+                                <input type="text" class="form-control" id="instructor_username" name="instructor_username">
             <div class="form-check" wfd-id="65">
               
-              
-            </div>
-              <input type="text" class="form-control" id="email" wfd-id="64"><div class="form-check" wfd-id="74">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" wfd-id="77">
-              <label class="form-check-label" for="flexRadioDefault1" wfd-id="75">
-                Add
-              </label>
-            </div>
-            <div class="form-check" wfd-id="72">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked="" wfd-id="76">
-              <label class="form-check-label" for="flexRadioDefault2" wfd-id="73">
-                Remove
-              </label><br><br>
-            </div>
+        
                              
                             
                         </div>
-                        <div class="alert alert-danger" id="teamErrorMessage" ng-if="isProfileSaveError">
-                                <button type="button" class="close" ng-click="hideProfileSaveError()">&times;</button>
-                                {{profileSaveErrorMessage}}
+                        <div class="alert alert-danger" id="addInstructorErrorMessage" ng-if="isaddInstructorError">
+                                <button type="button" class="close" ng-click="hideLinkSaveError()">&times;</button>
+                                {{registerErrorMessage}}
                         </div>
-                        <div class="alert alert-success" id="teamSuccessMessage" ng-if="isProfileSaveSuccess">
-                                <button type="button" class="close" ng-click="hideProfileSaveSuccess()">&times;</button>
-                                {{profileSaveSuccessMessage}}
+                        <div class="alert alert-success" id="addInstructorSuccessMessage" ng-if="isaddInstructorSuccess">
+                                <button type="button" class="close" ng-click="hideLinkSaveSuccess()">&times;</button>
+                                {{registerOKMessage}}
                         </div>
                         <div class="modal-footer">
                             
-                            <button type="button" class="btn btn-primary" ng-click="updateLocalUser()">Save</button>
+                            <button type="button" class="btn btn-primary" ng-click="linkInstructor()">Save</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>

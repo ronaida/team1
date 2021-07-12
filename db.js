@@ -322,6 +322,28 @@ exports.updateUser = function(user,errCb,doneCb){
   });
 };
 
+//fetches instructorid from database
+exports.getinstructorid = function(accountId,errCb,doneCb){
+  var con = getConn();
+  var newiname="Local_"+accountId;
+  var sql = "select * FROM users WHERE accountId = ? ";
+  con.query(sql, [newiname], function (err, result) {
+    console.log(result);
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+};
+
+//update instructorid to student
+exports.updateuserinstr = function(accountId,uid,errCb,doneCb){
+  var con = getConn();
+  var sql = "update users set instructorId=? WHERE id = ? ";
+  con.query(sql, [accountId,uid], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+};
+
 //fetches the list of users from the database only with public info
 exports.fetchUsers = function(errCb,doneCb){
   var con = getConn();
