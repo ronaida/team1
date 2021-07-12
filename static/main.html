@@ -215,17 +215,17 @@
                              
                             
                         </div>
-                        <div class="alert alert-danger" id="teamErrorMessage" ng-if="isProfileSaveError">
-                                <button type="button" class="close" ng-click="hideProfileSaveError()">&times;</button>
-                                {{profileSaveErrorMessage}}
+                        <div class="alert alert-danger" id="addInstructorErrorMessage" ng-if="isaddInstructorError">
+                                <button type="button" class="close" ng-click="hideLinkSaveError()">&times;</button>
+                                {{registerErrorMessage}}
                         </div>
-                        <div class="alert alert-success" id="teamSuccessMessage" ng-if="isProfileSaveSuccess">
-                                <button type="button" class="close" ng-click="hideProfileSaveSuccess()">&times;</button>
-                                {{profileSaveSuccessMessage}}
+                        <div class="alert alert-success" id="addInstructorSuccessMessage" ng-if="isaddInstructorSuccess">
+                                <button type="button" class="close" ng-click="hideLinkSaveSuccess()">&times;</button>
+                                {{registerOKMessage}}
                         </div>
                         <div class="modal-footer">
                             
-                            <button type="button" class="btn btn-primary" ng-click="updateLocalUser()">Save</button>
+                            <button type="button" class="btn btn-primary" ng-click="linkInstructor()">Save</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>

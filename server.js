@@ -544,6 +544,26 @@ app.post('/api/reportUpload', async (req, res) => {
   return util.apiResponse(req,res,200,"User report uploaded");
 
 });
+
+//add Instructor for student
+app.post('/addInstructor', async (req, res) => {
+  db.getinstructorid(req.body.instructor,null,async(inid)=>{
+    if (inid && inid[0] && inid[0] != undefined) {
+      if(inid[0]["userType"] !== "instructor")
+      {
+        return util.apiResponse(req,res,400,"not valid");
+      }
+      else {
+        db.updateuserinstr(inid[0]["id"],req.user.id,null,async(a)=>{
+          return util.apiResponse(req,res,200,"User modified.");
+        });
+      }
+    } else {
+      return util.apiResponse(req,res,404,"not found");
+    }
+  });
+
+});
 //get a report for training module
 app.get('/api/report/:moduleId',  async (req, res) => {
 
