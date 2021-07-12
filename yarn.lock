@@ -491,9 +491,9 @@ aws4@^1.8.0:
   resolved "https://artifactory-pub.bit9.local:443/artifactory/api/npm/npm-virtual/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha1-1h9G2DslGSUOJ4Ta9bCUeai0HFk=
 
-axios@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
@@ -1543,7 +1543,7 @@ deep-email-validator@^0.1.18:
   integrity sha512-eo2WEUidQvppg6Qdek8iwOqmXvaxRJ2D2VJKbIOwUgLZNFveDDdJMBsFc+yq0S+lILEUcmzrJRrCWbyoe7QUzQ==
   dependencies:
     "@types/disposable-email-domains" "^1.0.1"
-    axios "^0.19.2"
+    axios "^0.21.1"
     disposable-email-domains "^1.0.53"
     lodash "^4.17.15"
     mailcheck "^1.1.1"
