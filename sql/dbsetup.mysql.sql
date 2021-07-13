@@ -42,6 +42,7 @@ CREATE TABLE `users` (
   `givenName` varchar(255) DEFAULT NULL,
   `userType` varchar(255) COMMENT 'this will detrmine of the type of the user',
   `instructorID` varchar(255) DEFAULT NULL COMMENT 'this will save the accountId of the instructor',
+  `Challenge` INT(1) unsigned DEFAULT NULL COMMENT 'this will save the access to the challenge',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `account_name_UNIQUE` (`accountId`)

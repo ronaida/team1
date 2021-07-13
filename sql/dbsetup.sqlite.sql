@@ -32,5 +32,6 @@ CREATE TABLE users (
   givenName CHAR(255),
   userType CHAR(255),
   instructorId CHAR(255)
+  challenge CHAR(255)
 );
 

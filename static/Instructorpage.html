@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Secure Coding Dojo</title>
+  
+  <script src="public/jquery/dist/jquery.min.js"></script>
+  <script src="public/angular/angular.min.js"></script>
+  <script src="public/angular-route/angular-route.min.js"></script>
+  <script src="public/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="public/highlightjs/highlight.pack.min.js"></script>
+  <script src="public/canvas-confetti/dist/confetti.browser.js"></script>
+  
+  <script src="static/main-app.js"></script>
+  <script src="static/instructorpage-app.js"></script>
+  <script src="static/dataSvc.js"></script>
+
+  <script src="static/dashboardCtrl.js"></script>
+  <script src="static/instructorDashboardCtrl.js"></script>
+
+  <script src="static/activityCtrl.js"></script>
+  <link href="/public/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/public/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+  <link href="/public/highlightjs/styles/darkula.css" rel="stylesheet">
+  
+  <script>
+      window.localStorage.setItem('XSRF_TOKEN','%XSRF_TOKEN%');
+      window.getAjaxOpts = function(){
+         var opts =  {
+             headers:{
+                 "xsrfToken":window.localStorage.getItem("XSRF_TOKEN")
+             }
+         }
+         return opts;
+      }
+  </script>
+      
+  
+  </head>
+<!-- <head>
+    <head>
+        <script src="public/jquery/dist/jquery.min.js"></script>
+        <script src="public/angular/angular.min.js"></script>
+        <script src="public/angular-route/angular-route.min.js"></script>
+        <script src="public/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="public/highlightjs/highlight.pack.min.js"></script>
+        <script src="public/canvas-confetti/dist/confetti.browser.js"></script>
+        <script src="static/main-app.js"></script>
+
+        <script src="public/instructorpage-app.js"></script>
+
+        <meta charset="UTF-8">
+        <title>Secure Coding Dojo &gt; Instructor Page</title>
+        <link href="/public/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      
+      </head> -->
+<body>
+
+  <div ng-app="instructorCtrlApp" ng-controller="instructorCtrl">
+
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+        <a class="navbar-brand" href="#!">Secure Coding Dojo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown" ng-app="instructorCtrlApp" ng-controller="instructorCtrl">      
+            <ul class="navbar-nav ml-auto">
+
+              <li class="navbar-item" ng-class="{ active: isActive('/activity')}"><a class="nav-link" href="#!activity">MyStudentsActivity</a></li>
+              <li class="navbar-item"><a class="nav-link" href="/logout"><span class="oi oi-account-logout"></span> Logout {{fullName}}</a></li>
+            </ul>
+           
+        </div>
+    </nav>
+
+
+                <!-- This is where the main view goes -->
+                <div style="margin:20px" ng-view></div>
+
+  </div>
+       
+    
+    
+    
+    
+    
+    
+  
+     
+  <!-- <form ng-submit="fetchProgress()">
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Filter by name" id="nameFilter" role="searchbox">
+          <div class="input-group-btn">
+          <button class="btn" ng-click="fetchProgress()" role="search"><span class="oi oi-magnifying-glass"></span></button>
+          </div>
+      </div>
+  </form> -->
+  <!-- <table class="table table-bordered"> -->
+    <!-- <thead>
+      <tr table style="width:100%;text-align:left;background-color:rgb(114, 31, 16);">
+        <th scope="col">ID</th>
+        <th scope="col">Student First Name</th>
+        <th scope="col">Student Second Name</th>
+        <th scope="col">Email Address</th>
+        <th scope="col">Progress</th>
+        <th scope="col"> Open Challenge</th>
+      </tr>
+    </thead> -->
+    <!-- <tbody> -->
+        <!-- <tr ng-repeat="ProgressEntry in ProgressList">
+          <td>{{ProgressEntry.id}}</td>
+          <td>{{ProgressEntry.givenName}}</td>
+          <td>{{ProgressEntry.familyName}}</td>
+          <td>{{ProgressEntry.userEmail}}</td>
+          <td></td>
+          <!-- <td>{{ProgressEntry.Progress}}</td> -->
+          <!-- <td><div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Belt Color
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Yellow</a>
+                <a class="dropdown-item" href="#">Orange</a>
+                <a class="dropdown-item" href="#">Green</a>
+                <a class="dropdown-item" href="#">Purple</a>
+                <a class="dropdown-item" href="#">Blue</a>
+            </div>
+          </div></td>
+
+        </tr> -->
+
+        <!-- <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Belt Color
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Yellow</a>
+              <a class="dropdown-item" href="#">Orange</a>
+              <a class="dropdown-item" href="#">Green</a>
+              <a class="dropdown-item" href="#">Purple</a>
+              <a class="dropdown-item" href="#">Blue</a>
+          </div>
+        </div>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Belt Color
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Yellow</a>
+              <a class="dropdown-item" href="#">Orange</a>
+              <a class="dropdown-item" href="#">Green</a>
+              <a class="dropdown-item" href="#">Purple</a>
+              <a class="dropdown-item" href="#">Blue</a>
+          </div>
+        </div></td>
+      
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Belt Color
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Yellow</a>
+              <a class="dropdown-item" href="#">Orange</a>
+              <a class="dropdown-item" href="#">Green</a>
+              <a class="dropdown-item" href="#">Purple</a>
+              <a class="dropdown-item" href="#">Blue</a>
+          </div>
+        </div></td>
+      
+      </tr> -->
+    <!-- </tbody>
+  </table> -->
+</body>
+</html>

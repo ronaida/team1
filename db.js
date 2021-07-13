@@ -310,19 +310,6 @@ exports.deleteUser = function(accountId,errCb,doneCb){
     else handleDone(doneCb,result);
   });
 };
-
-//updates the properties of a user in the database
-exports.updateUser = function(user,errCb,doneCb){
-  var con = getConn();
-  var sql = "UPDATE users SET accountId = ?, teamId = ?, familyName = ?, givenName = ? WHERE id = ?";
-  con.query(sql, [user.accountId, user.teamId, user.familyName, user.givenName, user.id], function (err, result) {
-    if(err) handleErr(errCb,err);
-    else handleDone(doneCb,result);
-      
-  });
-};
-
-//fetches instructorid from database
 exports.getinstructorid = function(accountId,errCb,doneCb){
   var con = getConn();
   var newiname="Local_"+accountId;
@@ -334,13 +321,31 @@ exports.getinstructorid = function(accountId,errCb,doneCb){
   });
 };
 
-//update instructorid to student
+exports.getinstructorRelatedData = function(user,errCb,doneCb){
+  var con = getConn();
+  var sql = "select * FROM users WHERE instructorId = ? ";
+  con.query(sql, [user.id], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+};
+
 exports.updateuserinstr = function(accountId,uid,errCb,doneCb){
   var con = getConn();
   var sql = "update users set instructorId=? WHERE id = ? ";
   con.query(sql, [accountId,uid], function (err, result) {
     if(err) handleErr(errCb,err);
     else handleDone(doneCb,result);
+  });
+};
+//updates the properties of a user in the database
+exports.updateUser = function(user,errCb,doneCb){
+  var con = getConn();
+  var sql = "UPDATE users SET accountId = ?, teamId = ?, familyName = ?, givenName = ? WHERE id = ?";
+  con.query(sql, [user.accountId, user.teamId, user.familyName, user.givenName, user.id], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+      
   });
 };
 
@@ -665,3 +670,121 @@ exports.getTeamStats= async (limit) => {
 
 
 
+exports.getstudentChallenge = function(accountId,errCb,doneCb){
+  var con = getConn();
+  //var newiname="Local_"+accountId;
+  var newiname=accountId;
+  var sql = "select * FROM users WHERE accountId = ? ";
+  con.query(sql, [newiname], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+};
+
+
+
+
+
+/* Fetches the list of challenge entries in descending order, practically the activity
+* @param {*} errCb 
+* @param {*} doneCb 
+*/
+exports.fetchInstructorActivity = function(query,limit,errCb,doneCb){
+ var con = getConn();
+ var sql = "";
+ var args = [];
+ if(!util.isNullOrEmpty(query)){
+   query = "%"+query+"%";
+   var concat = "CONCAT(users.givenName,' ',users.familyName)";
+   if(MYSQL_CONFIG===null){
+     concat = "users.givenName || ' ' || users.familyName";
+   }
+   sql = "SELECT challengeEntries.challengeId, challengeEntries.timestamp, users.givenName, users.familyName, users.userEmail, users.id, users.teamId "+
+     " FROM challengeEntries INNER JOIN users on users.id=challengeEntries.userId "+
+     "WHERE "+concat+" LIKE ? order by challengeEntries.id desc LIMIT ?";
+   args = [query, limit];
+ }
+ else{
+   sql = "SELECT challengeEntries.challengeId, challengeEntries.timestamp, users.givenName, users.familyName, users.userEmail, users.id, users.teamId "+
+   " FROM challengeEntries INNER JOIN users on users.id=challengeEntries.userId order by challengeEntries.id desc LIMIT ?";
+   args = [limit];
+ }
+ con.query(sql, args, function (err, result) {
+   if(err) handleErr(errCb,err);
+   else{
+     handleDone(doneCb,result);
+   }
+ });
+};
+
+//fetches the list of instructors from the database
+exports.fetchInstructors = function(errCb,doneCb){
+  var con = getConn();
+  var sql = "SELECT * FROM users WHERE userType='instructor' ";
+  con.query(sql, function (err, result) {
+      if(err) handleErr(errCb,err);
+      else{
+        handleDone(doneCb,result);
+    }
+  });
+};
+
+/**
+ * Fetches the list of challenge entries in descending order, practically the activity
+ * @param {*} errCb 
+ * @param {*} doneCb 
+ */
+ exports.fetchMystudents = function(query,instructor_id,errCb,doneCb){
+  var con = getConn();
+  sql = "SELECT * FROM users WHERE userType='student' AND instructorId = ?";
+  args = [instructor_id];
+  con.query(sql, args, function (err, result) {
+    console.log(result);
+    if(err) handleErr(errCb,err);
+    else{
+      handleDone(doneCb,result);
+    }
+  });
+};
+
+//update a student in the database
+exports. updateStudent = function(user,errCb,doneCb){
+  var con = getConn();
+  var sql = "UPDATE users SET Challenge = ?  WHERE id = ? AND accountId = ? AND instructorId = ?";
+  console.log(user);
+  con.query(sql, [user.solution_disabled, user.id, user.accountId, user.instructor_UN], function (err, result) {
+    if (err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+ 
+};
+
+//update a student in the database
+exports. updateProgress = function(progress,userid,errCb,doneCb){
+  var con = getConn();
+  var sql = "UPDATE users SET progress = ?  WHERE id = ?";
+  con.query(sql, [progress, userid, ], function (err, result) {
+    if (err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+ 
+};
+
+// exports.getinstructorRelatedData = function(user,errCb,doneCb){
+//   var con = getConn();
+//   var sql = "select * FROM users WHERE instructorId = ? ";
+//   con.query(sql, [user.id], function (err, result) {
+//     if(err) handleErr(errCb,err);
+//     else handleDone(doneCb,result);
+//   });
+// };
+// /**
+//  * Gets a list of users for a module id
+//  */
+//  exports.getAllUsersForBadge = async (moduleId) => {
+//   let con = getConn();
+//   let sql = "SELECT badges.moduleId, users.givenName, users.familyName FROM users INNER JOIN badges on badges.userId=users.id WHERE badges.moduleId = ? "+
+//   " order by badges.moduleId, users.givenName, users.familyName";
+//   let result = await con.queryPromise(sql,[moduleId]);
+//   return result;
+// };

@@ -5,8 +5,7 @@ app.config(function($routeProvider) {
     .when("/", {
         templateUrl : "static/trainingModules.html",
         controller: "trainingModulesCtrl"
-    })
-    .when("/challenges/:moduleId?", {
+    }).when("/challenges/:moduleId?", {
         templateUrl : "static/challenges.html",
         controller: "challengesCtrl"
     })
@@ -137,15 +136,16 @@ app.controller('mainCtrl', ['$rootScope','$http','$location','dataSvc', function
         $scope.hideTeamSaveSuccess(); 
     }
 
-    //hide a team save error
-    $scope.hideLinkSaveError = function() {
-        $scope.isaddInstructorError = false;
-    }
-
-    //hide a team save success message
-    $scope.hideLinkSaveSuccess = function() {
-        $scope.isaddInstructorSuccess = false;
-    }
+        //hide a team save error
+        $scope.hideLinkSaveError = function() {
+            $scope.isError = false;
+        }
+    
+        //hide a team save success message
+        $scope.hideLinkSaveSuccess = function() {
+            $scope.isSuccess = false;
+        }
+    
 
     //delete current owned team
     $scope.deleteOwnedTeam = function() {
@@ -329,26 +329,26 @@ app.controller('mainCtrl', ['$rootScope','$http','$location','dataSvc', function
         .then(function(response) {
             if(response.status == 200){
                 if (response.data.status && (response.data.status == 400 || response.data.status == 404)) {
-                    $scope.isaddInstructorSuccess = false;
-                    $scope.isaddInstructorError = true;
+                    $scope.isSuccess = false;
+                    $scope.isError = true;
                     $scope.registerErrorMessage = response.data.statusMessage;
                 } else {
-                    $scope.isaddInstructorError = false;
-                    $scope.isaddInstructorSuccess = true;
+                    $scope.isError = false;
+                    $scope.isSuccess = true;
+                    // username.value = newUser.username;
                     $scope.registerOKMessage='Done';
                 }
             }
             else{
-                $scope.isaddInstructorSuccess = false;
-                $scope.isaddInstructorError = true;
+                $scope.isSuccess = false;
+                $scope.isError = true;
                 $scope.registerErrorMessage = response.data.statusMessage;
             }
         },function(errorResponse){
-            $scope.isaddInstructorError = true;
+            $scope.isError = true;
             $scope.registerErrorMessage = "A http error has occurred.";
         });
     }
-    
 
     $scope.loadData = function(){
         $http.get("/api/user",window.getAjaxOpts())
