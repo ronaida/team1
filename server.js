@@ -183,6 +183,7 @@ app.get("/public/authFailure",(req,res) => {
 });
 
 app.get("/public/badge/:code",async(req,res) => {
+  var escape = require('escape-html');
   var code = req.params.code;
   
   if(util.isNullOrUndefined(code)){
@@ -198,7 +199,7 @@ app.get("/public/badge/:code",async(req,res) => {
   let html = badgeHtml;
   html = html.replace(/BADGE_IMG_SRC/g, imgSrc);
   html = html.replace("BADGE_URL", config.dojoUrl+req.url);
-  res.send(html);
+  res.send(escape(html));
 });
 
 
