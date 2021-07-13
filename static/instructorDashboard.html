@@ -22,7 +22,8 @@
           <td>
             <select class="form-select"  name="sol_button_disabled" id="sol_button_disabled" > 
                 <option value='disabled' ng-selected="ProgressEntry.solution_disabled=='disabled' ">Disabled</option>
-            </select>
+                <option value='enabled' ng-selected="ProgressEntry.solution_disabled=='enabled' ">Enabled</option>
+              </select>
           </td>
           <td><button  type="button" class="btn btn-secondary" ng-click="updateStudent($index)">Change</button> </td>
 
