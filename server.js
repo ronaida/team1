@@ -49,17 +49,18 @@ app.use(passport.session());
 
 app.use(auth.authenticationByDefault);
 app.use(auth.addSecurityHeaders);
-app.use('/public/jquery',express.static(path.join(__dirname, 'node_modules/jquery')));
-app.use('/public/angular',express.static(path.join(__dirname, 'node_modules/angular')));
-app.use('/public/angular-route',express.static(path.join(__dirname, 'node_modules/angular-route')));
-app.use('/public/bootstrap/dist/css/bootstrap.min.css',express.static(
-  path.join(__dirname, 'node_modules/bootswatch/dist/darkly/bootstrap.min.css')));
-app.use('/public/bootstrap',express.static(path.join(__dirname, 'node_modules/bootstrap')));
-app.use('/public/open-iconic',express.static(path.join(__dirname, 'node_modules/open-iconic')));
-app.use('/public/highlightjs',express.static(path.join(__dirname, 'node_modules/highlightjs')));
-app.use('/public/canvas-confetti',express.static(path.join(__dirname, 'node_modules/canvas-confetti')));
 
-app.use('/public',express.static(path.join(__dirname, 'public')));
+app.use('/public/jquery',express.static('./node_modules/jquery'));
+app.use('/public/angular',express.static('./node_modules/angular'));
+app.use('/public/angular-route',express.static('./node_modules/angular-route'));
+
+app.use('/public/bootstrap/dist/css/bootstrap.min.css',express.static( 
+'./node_modules/bootswatch/dist/darkly/bootstrap.min.css'));
+app.use('/public/bootstrap',express.static('./node_modules/bootstrap'));
+app.use('/public/open-iconic',express.static('./node_modules/open-iconic'));
+app.use('/public/highlightjs',express.static('./node_modules/highlightjs'));
+app.use('/public/canvas-confetti',express.static('./node_modules/canvas-confetti'));
+app.use('/public',express.static(path.join(__dirname, 'public'));
 
 
 app.use('/static', (req, res, next) => {
