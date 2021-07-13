@@ -122,36 +122,9 @@ app.controller('instructorCtrl', ['$rootScope','$http','$location','dataSvc', fu
     $scope.fetchStudents = function(){
         $http.get("/api/students",window.getAjaxOpts())
             .then(function(response) {
-                // if(response != null && response.data != null){
-                //     $scope.students = {};
-                //     var studentsList = response.data;
-                //     //create a map of team names to team ids
-                //     for(let team of studentsList){
-                //         $scope.teamNames[team.id] = team.name;
-                //     }
-                //     $http.get("/api/users",window.getAjaxOpts())
-                //     .then(function(response) {
-                //         if(response != null && response.data != null){
-
-                //             for(let team of studentsList){
-                //                 if(team.ownerId!=null && team.ownerId === $scope.user.id){// the user cannot change their team until they delete their current team
-                //                     $scope.ownedTeam = team;
-                //                 }
-                //                 if(team.id===$scope.user.teamId){
-                //                     userTeamListChoice.value = team.name;
-                //                     $scope.existingTeamSelect = team.id;
-                //                 }
-                //             }
-                //             $scope.studentsList = studentsList;
-
-                //         }
-                //     });
-                // }
-            });
+                        });
     }
 
     $scope.loadData();
-    //$scope.fetchStudents();
-    //$scope.fetchActivity();
 
 }]);

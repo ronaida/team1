@@ -10,8 +10,6 @@
         <th scope="col">Student First Name</th>
         <th scope="col">Student Second Name</th>
         <th scope="col">Email Address</th>
-        <!-- <th scope="col">Progress</th> -->
-        <!-- <th scope="col"> Open Challenge</th> -->
         <th scope="col"> Solution </th>
       </tr>
     </thead>
@@ -21,22 +19,9 @@
           <td>{{ProgressEntry.givenName}}</td>
           <td>{{ProgressEntry.familyName}}</td>
           <td>{{ProgressEntry.userEmail}}</td>
-          <!-- <td>{{ProgressEntry.completionLabel}}</td> -->
-          <!-- <td>
-            <select class="form-select"  name="challengelevel_limit" id="challengelevel_limit"> 
-                <option value=1 ng-selected="studentEntry.max_progress==1" >Yellow Belt</option>
-                <option value=2 ng-selected="studentEntry.max_progress==2" >Orange Belt</option>
-                <option value=3 ng-selected="studentEntry.max_progress==3" >Green Belt</option>
-                <option value=4 ng-selected="studentEntry.max_progress==4" >Purple Belt </option>
-                <option value=5 ng-selected="studentEntry.max_progress==5" >Blue Belt </option>
-                <option value=6 ng-selected="studentEntry.max_progress==6" >Black Belt </option>
-            </select>
-          </td> -->
           <td>
             <select class="form-select"  name="sol_button_disabled" id="sol_button_disabled" > 
                 <option value='disabled' ng-selected="ProgressEntry.solution_disabled=='disabled' ">Disabled</option>
-                <option value='enabled' ng-selected="ProgressEntry.solution_disabled=='enabled' ">Enabled</option>
-               
             </select>
           </td>
           <td><button  type="button" class="btn btn-secondary" ng-click="updateStudent($index)">Change</button> </td>

@@ -240,73 +240,6 @@ app.get('/Instructorpage', (req, res) => {
   res.send(updatedHtml);
 });
 
-// app.get('/challenges/:moduleId', async (req, res) => {
-//   var moduleId = req.params.moduleId;
-//   console.log(req.user, moduleId);
-//   if(util.isNullOrUndefined(moduleId) || validator.isAlphanumeric(moduleId) == false){
-//     return util.apiResponse(req, res, 400, "Invalid module id."); 
-//   }
-
-//   let allowed = await challenges.isPermittedModule(req.user, moduleId);
-
-//   if(!allowed){
-//     return util.apiResponse(req, res, 403, "Requested module id is not available."); 
-//   }
-
-//   var returnChallenges = await challenges.getChallengeDefinitionsForUser(req.user, moduleId);
-//   var response = {
-//     "challenges" : returnChallenges
-//   };
-
-//   if(response != null && response.data != null && Array.isArray(response.data.challenges)){
-//     $scope.levelNames = {};
-//     var challengeDefinitions = response.data.challenges;
-//     let totalChCount = 0;
-//     let passedChCount = 0;
-//     if(challengeDefinitions.length >= 1){
-//         //update the challenge definitions to include the current user's passed challenges
-//         for(let levelId in challengeDefinitions){
-//             var level = challengeDefinitions[levelId];
-//             $scope.levelNames[levelId] = level.name;
-
-//             var challenges = level.challenges;
-//             if(challenges.length>0){
-//                 $scope.challengesAvailable = true;
-//             }
-//             if(challenges!=null){
-//                 for(let ch of challenges){
-//                     var passedChallenges = $scope.user.passedChallenges;
-//                     totalChCount++;
-//                     if(passedChallenges!=null){
-//                         for(let passedCh of passedChallenges){
-//                             if(ch.id===passedCh.challengeId){
-//                                 ch.passed = true;
-//                                 passedChCount++;
-//                                 break;
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     $scope.targetUrl = response.data.targetUrl;
-//     $scope.moduleChallengeDefinitions = challengeDefinitions;
-
-//     $scope.percentDone = passedChCount/totalChCount * 100;
-//     $scope.completionLabel = `${passedChCount}/${totalChCount}`; 
-//     console.log(completionLabel,user.id);
-//     db.updateProgress(completionLabel,user.id);
-// }
-// else{
-//     $scope.challengesAvailable = false;
-// }
-
-//   if(!util.isNullOrUndefined(config.moduleUrls[moduleId])){
-//     response.targetUrl = config.moduleUrls[moduleId];
-//   }
-//   res.send(response);
-// });
 
 app.get('/challenges/:moduleId', async (req, res) => {
   var moduleId = req.params.moduleId;
@@ -359,24 +292,16 @@ app.post('/api/student_update', auth.ensureApiAuth, (req, res) => {
 
   }
   console.log(inid, inid[0]);
-  //if (inid && inid[0] && inid[0] != undefined) {
     studentUpdates.instructor_UN = inid[0]["id"];
-  //}
   //check if the req is from the instructor account
   db.fetchInstructors(null, function(users){  
     for (let i = 0; i < users.length; i++) {
       if (req.user.accountId===users[i].accountId)
       {          
-        //update the student infos
-        // db.getinstructorid(req.body.instructor,null,async(inid)=>{
-        //   console.log(inid, inid[0]);
-        //   if (inid && inid[0] && inid[0] != undefined) {
-
-        //   }
-        // }
         db.getPromise(db.updateStudent,studentUpdates);
         return util.apiResponse(req, res, 200, "Updated Seccesfully");   
       }
+
     }
     //username not found
     return util.apiResponse(req, res, 400, "Instructor Username NOT FOUND.");
@@ -588,15 +513,9 @@ app.get('/api/students', async (req, res) => {
        instructor_id = inid[0]["id"];
     }
   console.log(instructor_id);
-  // if(instructor_id === ""){
-  //   return util.apiResponse(req,res,400,"Invalid instructor_id");
-  // }
   db.fetchMystudents(null,instructor_id,null,async function(studentsList){
-    //console.log(studentsList.length)
     var don_chan;
     for (let i = 0; i < studentsList.length; i++) {
-      don_chan= await challenges.getUserCurrentLevelForModule(studentsList[i], "blackBelt");
-      studentsList[i]["currentLevel"]=don_chan;
       if (studentsList[i]["Challenge"] == "1")
       {
         studentsList[i]["solution_disabled"]="enabled";
@@ -607,54 +526,10 @@ app.get('/api/students', async (req, res) => {
       }
       var returnChallenges = await challenges.getChallengeDefinitionsForUser(req.user, "blackBelt");
       studentsList[i]["Challenges"]=returnChallenges;
-    }
-    //studentsList.userLevelForModule = challenges.getUserCurrentLevelForModule(studentsList, "blackBelt");
-    
-    
-    
+    }    
+     
     console.log(studentsList);
-    // var returnChallenges = await challenges.getChallengeDefinitionsForUser(req.user, moduleId);
-    // var response = {
-    //   "challenges" : returnChallenges,
-    //   "studentsList" :studentsList
-    // };
-  
-    
-    // if(!util.isNullOrUndefined(config.moduleUrls[moduleId])){
-    //   response.targetUrl = config.moduleUrls[moduleId];
-    // }
-    // res.send(response);
-    
-    
-    
     res.send(studentsList);
-
-
-
-
-    // var moduleId = req.params.moduleId;
-  
-    // if(util.isNullOrUndefined(moduleId) || validator.isAlphanumeric(moduleId) == false){
-    //   return util.apiResponse(req, res, 400, "Invalid module id."); 
-    // }
-  
-    // let allowed = await challenges.isPermittedModule(req.user, moduleId);
-  
-    // if(!allowed){
-    //   return util.apiResponse(req, res, 403, "Requested module id is not available."); 
-    // }
-  
-    // var returnChallenges = await challenges.getChallengeDefinitionsForUser(req.user, moduleId);
-    // var response = {
-    //   "challenges" : returnChallenges
-    // };
-  
-    
-    // if(!util.isNullOrUndefined(config.moduleUrls[moduleId])){
-    //   response.targetUrl = config.moduleUrls[moduleId];
-    // }
-    // res.send(response);
-
   });
 });
 });
@@ -677,7 +552,7 @@ app.get('/api/instructoractivity',  (req, res) => {
 app.get('/api/students',  (req, res) => {
 
     var moduleId = "blackBelt";
-  console.log(req.params)
+  console.log(req.params);
     if(util.isNullOrUndefined(moduleId) || validator.isAlphanumeric(moduleId) == false){
       return util.apiResponse(req, res, 400, "Invalid module id."); 
     }
@@ -810,6 +685,7 @@ app.post('/addInstructor', async (req, res) => {
       }
       else {
         db.updateuserinstr(inid[0]["id"],req.user.id,null,async(a)=>{
+          return util.apiResponse(req,res,200,"User modified.");
           res.send("update successfuly");
           //Make error
           //return util.apiResponse(req, res, 200, "User modified.");

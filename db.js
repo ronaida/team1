@@ -769,22 +769,3 @@ exports. updateProgress = function(progress,userid,errCb,doneCb){
   });
  
 };
-
-// exports.getinstructorRelatedData = function(user,errCb,doneCb){
-//   var con = getConn();
-//   var sql = "select * FROM users WHERE instructorId = ? ";
-//   con.query(sql, [user.id], function (err, result) {
-//     if(err) handleErr(errCb,err);
-//     else handleDone(doneCb,result);
-//   });
-// };
-// /**
-//  * Gets a list of users for a module id
-//  */
-//  exports.getAllUsersForBadge = async (moduleId) => {
-//   let con = getConn();
-//   let sql = "SELECT badges.moduleId, users.givenName, users.familyName FROM users INNER JOIN badges on badges.userId=users.id WHERE badges.moduleId = ? "+
-//   " order by badges.moduleId, users.givenName, users.familyName";
-//   let result = await con.queryPromise(sql,[moduleId]);
-//   return result;
-// };

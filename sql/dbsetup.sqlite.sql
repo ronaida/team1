@@ -31,7 +31,8 @@ CREATE TABLE users (
   familyName CHAR(255),
   givenName CHAR(255),
   userType CHAR(255),
-  instructorId CHAR(255)
-  challenge CHAR(255)
+  instructorId CHAR(255),
+  challenge INTEGER(255),
+  progress CHAR(255),
 );
 
