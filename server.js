@@ -51,17 +51,18 @@ app.use(passport.session());
 
 app.use(auth.authenticationByDefault);
 app.use(auth.addSecurityHeaders);
-app.use('/public/jquery',express.static(path.join(__dirname, 'node_modules/jquery')));
-app.use('/public/angular',express.static(path.join(__dirname, 'node_modules/angular')));
-app.use('/public/angular-route',express.static(path.join(__dirname, 'node_modules/angular-route')));
-app.use('/public/bootstrap/dist/css/bootstrap.min.css',express.static(
-  path.join(__dirname, 'node_modules/bootswatch/dist/darkly/bootstrap.min.css')));
-app.use('/public/bootstrap',express.static(path.join(__dirname, 'node_modules/bootstrap')));
-app.use('/public/open-iconic',express.static(path.join(__dirname, 'node_modules/open-iconic')));
-app.use('/public/highlightjs',express.static(path.join(__dirname, 'node_modules/highlightjs')));
-app.use('/public/canvas-confetti',express.static(path.join(__dirname, 'node_modules/canvas-confetti')));
 
-app.use('/public',express.static(path.join(__dirname, 'public')));
+app.use('/public/jquery',express.static('./node_modules/jquery'));
+app.use('/public/angular',express.static('./node_modules/angular'));
+app.use('/public/angular-route',express.static('./node_modules/angular-route'));
+
+app.use('/public/bootstrap/dist/css/bootstrap.min.css',express.static( 
+'./node_modules/bootswatch/dist/darkly/bootstrap.min.css'));
+app.use('/public/bootstrap',express.static('./node_modules/bootstrap'));
+app.use('/public/open-iconic',express.static('./node_modules/open-iconic'));
+app.use('/public/highlightjs',express.static('./node_modules/highlightjs'));
+app.use('/public/canvas-confetti',express.static('./node_modules/canvas-confetti'));
+app.use('/public',express.static(path.join(__dirname, 'public'));
 
 
 app.use('/static', (req, res, next) => {
@@ -190,8 +191,17 @@ function(req, res) {
 app.get("/public/authFailure",(req,res) => {
     res.send('Unable to login');
 });
+// set up rate limiter: maximum of five requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter = new RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 5
+});
 
+// apply rate limiter to all requests
+app.use(limiter);
 app.get("/public/badge/:code",async(req,res) => {
+  var escape = require('escape-html');
   var code = req.params.code;
   
   if(util.isNullOrUndefined(code)){
@@ -207,7 +217,7 @@ app.get("/public/badge/:code",async(req,res) => {
   let html = badgeHtml;
   html = html.replace(/BADGE_IMG_SRC/g, imgSrc);
   html = html.replace("BADGE_URL", config.dojoUrl+req.url);
-  res.send(html);
+  res.send(escape(html));
 });
 
 
