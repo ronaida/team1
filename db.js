@@ -134,7 +134,7 @@ exports.getConn = getConn;
  * @param {*} err 
  */
 function handleErr(errCb,err){
-  if(util.isNullOrUndefined(errCb)) console.log(err);
+  if(util.isNullOrUndefined(errCb));
   else errCb(err);
 }
 
@@ -182,7 +182,6 @@ exports.init = async () => {
   try {
     result = await con.queryPromise(sql);
   } catch(err) {
-    console.log(err)
     error = err;
   }
 
@@ -197,7 +196,6 @@ exports.init = async () => {
       util.log("Database tables created");
     } catch (error) {
       util.log("Database setup failed");
-      console.log(err);
     }
     
   }
@@ -210,7 +208,6 @@ exports.init = async () => {
       version = await exports.getPromise(exports.getVersion);
     }
     catch(err){
-      console.log(err);
     }
 
     if(util.isNullOrUndefined(version)) version = 2; //started versioning from 3
@@ -233,7 +230,6 @@ exports.init = async () => {
           util.log("Database upgrade completed");
         } catch (error) {
           util.log("Database upgrade failed");
-          console.log(error);
         }
 
        
@@ -246,7 +242,6 @@ exports.init = async () => {
               await exports.insertBadge(user.id, "secondDegreeBlackBelt");
             }
           }
-          console.log("Badges created for all users");
         }
       }
     }
@@ -310,34 +305,7 @@ exports.deleteUser = function(accountId,errCb,doneCb){
     else handleDone(doneCb,result);
   });
 };
-exports.getinstructorid = function(accountId,errCb,doneCb){
-  var con = getConn();
-  var newiname="Local_"+accountId;
-  var sql = "select * FROM users WHERE accountId = ? ";
-  con.query(sql, [newiname], function (err, result) {
-    console.log(result);
-    if(err) handleErr(errCb,err);
-    else handleDone(doneCb,result);
-  });
-};
 
-exports.getinstructorRelatedData = function(user,errCb,doneCb){
-  var con = getConn();
-  var sql = "select * FROM users WHERE instructorId = ? ";
-  con.query(sql, [user.id], function (err, result) {
-    if(err) handleErr(errCb,err);
-    else handleDone(doneCb,result);
-  });
-};
-
-exports.updateuserinstr = function(accountId,uid,errCb,doneCb){
-  var con = getConn();
-  var sql = "update users set instructorId=? WHERE id = ? ";
-  con.query(sql, [accountId,uid], function (err, result) {
-    if(err) handleErr(errCb,err);
-    else handleDone(doneCb,result);
-  });
-};
 //updates the properties of a user in the database
 exports.updateUser = function(user,errCb,doneCb){
   var con = getConn();
@@ -346,6 +314,27 @@ exports.updateUser = function(user,errCb,doneCb){
     if(err) handleErr(errCb,err);
     else handleDone(doneCb,result);
       
+  });
+};
+
+//fetches instructorid from database
+exports.getinstructorid = function(accountId,errCb,doneCb){
+  var con = getConn();
+  var newiname="Local_"+accountId;
+  var sql = "select * FROM users WHERE accountId = ? ";
+  con.query(sql, [newiname], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
+  });
+};
+
+//update instructorid to student
+exports.updateuserinstr = function(accountId,uid,errCb,doneCb){
+  var con = getConn();
+  var sql = "update users set instructorId=? WHERE id = ? ";
+  con.query(sql, [accountId,uid], function (err, result) {
+    if(err) handleErr(errCb,err);
+    else handleDone(doneCb,result);
   });
 };
 
@@ -668,8 +657,6 @@ exports.getTeamStats= async (limit) => {
   
 };
 
-
-
 exports.getstudentChallenge = function(accountId,errCb,doneCb){
   var con = getConn();
   //var newiname="Local_"+accountId;
@@ -680,9 +667,6 @@ exports.getstudentChallenge = function(accountId,errCb,doneCb){
     else handleDone(doneCb,result);
   });
 };
-
-
-
 
 
 /* Fetches the list of challenge entries in descending order, practically the activity
@@ -739,7 +723,6 @@ exports.fetchInstructors = function(errCb,doneCb){
   sql = "SELECT * FROM users WHERE userType='student' AND instructorId = ?";
   args = [instructor_id];
   con.query(sql, args, function (err, result) {
-    console.log(result);
     if(err) handleErr(errCb,err);
     else{
       handleDone(doneCb,result);
@@ -751,12 +734,11 @@ exports.fetchInstructors = function(errCb,doneCb){
 exports. updateStudent = function(user,errCb,doneCb){
   var con = getConn();
   var sql = "UPDATE users SET Challenge = ?  WHERE id = ? AND accountId = ? AND instructorId = ?";
-  console.log(user);
   con.query(sql, [user.solution_disabled, user.id, user.accountId, user.instructor_UN], function (err, result) {
     if (err) handleErr(errCb,err);
     else handleDone(doneCb,result);
   });
- 
+
 };
 
 //update a student in the database
@@ -767,5 +749,5 @@ exports. updateProgress = function(progress,userid,errCb,doneCb){
     if (err) handleErr(errCb,err);
     else handleDone(doneCb,result);
   });
- 
+
 };

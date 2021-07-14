@@ -112,10 +112,6 @@ let checkCaptchaOnLogin = function(req,res,next){
     next();
 }
 
-// Check email for common typos
-async function isEmailValid(email) {
-    return emailValidator.validate(email)
-   }
 
 /**
  * Registers a user in the local directory
@@ -137,13 +133,23 @@ let registerLocalUser = function(req,res){
         return util.apiResponse(req, res, 400, "Invalid username.");
     }
 
+    if(username in localUsers){
+        return util.apiResponse(req, res, 400, "Invalid username.");
+    }
+
     var userEmail = newUser.userEmail;
-    if(util.isNullOrUndefined(userEmail) || isEmailValid(userEmail)===false || validator.matches(userEmail, /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)===false){
+    if(util.isNullOrUndefined(userEmail) 
+        || validator.matches(userEmail, /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)===false){
         return util.apiResponse(req, res, 400, "Invalid user email.");
     }
 
-    if(username in localUsers){
-        return util.apiResponse(req, res, 400, "Invalid username.");
+    emails = []
+    for (localUser in localUsers) {
+        emails.push(localUsers[localUser].userEmail)
+    }
+    
+    if(emails.includes(userEmail)){
+        return util.apiResponse(req, res, 400, "Invalid user email.");
     }
 
     var password = newUser.password;

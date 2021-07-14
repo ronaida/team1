@@ -192,64 +192,49 @@
                 </div>
             </div>
             <!--test-->
-             <!-- instructor configuration -->
-             <div id="InstructorModal" class="modal fade" role="dialog">
+            <!-- Instructor configuration -->
+            <div id="InstructorModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
-                    <!-- instructor configuration UI -->
+
+                    <!-- Instructor configuration UI -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add Instructor</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                            <h4 class="modal-title">Add Instrctor</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" wfd-id="40">
+                                <span aria-hidden="true" wfd-id="57">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label >Instructor Username:</label>
+                        <div class="modal-body" wfd-id="49">
+                        
+                            <div class="form-group" wfd-id="54">
+                                <label for="Instructor Email" wfd-id="69">Your Instructor ID:</label> 
                                 <input type="text" class="form-control" id="instructor_username" name="instructor_username">
-                            </div>                         
+            <div class="form-check" wfd-id="65">
+              
+        
+                             
+                            
                         </div>
-                        <div class="alert alert-danger" id="linkErrorMessage" ng-if="isError">
+                        <div class="alert alert-danger" id="addInstructorErrorMessage" ng-if="isaddInstructorError">
                                 <button type="button" class="close" ng-click="hideLinkSaveError()">&times;</button>
                                 {{registerErrorMessage}}
                         </div>
-                        <div class="alert alert-success" id="linkSuccessMessage" ng-if="isSuccess">
+                        <div class="alert alert-success" id="addInstructorSuccessMessage" ng-if="isaddInstructorSuccess">
                                 <button type="button" class="close" ng-click="hideLinkSaveSuccess()">&times;</button>
                                 {{registerOKMessage}}
                         </div>
                         <div class="modal-footer">
                             
-                            <button type="button" class="btn btn-primary" ng-click="linkInstructor()">Link</button>
-                            <!-- <button type="button" class="btn btn-primary" id="changeinstructor">Link</button> -->
+                            <button type="button" class="btn btn-primary" ng-click="linkInstructor()">Save</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>      
         </div>  
+    </div> 
     
     <br><br><br><br>
-<script>
 
-// $scope.register = function (){
-//         var newUser = {};
-//         newUser.username = registerUserName.value.trim();
-//         newUser.userEmail = email.value.trim();
-//         newUser.password = registerPassword.value;
-//         newUser.givenName = givenName.value.trim();
-//         newUser.familyName = familyName.value.trim();
-//         newUser.captcha = captcha.value.trim();
-
-//         //verifications
-//         $scope.isError = false;    
-//         $scope.isSuccess = false;    
-          
-//         if($scope.isError){
-//           return;
-//         }
-//     }
-
-
-</script>
 </body>
 </html>

@@ -24,7 +24,6 @@ const fs = require('fs');
 const app = express();
 const uid = require('uid-safe');
 const validator = require('validator');
-const { count } = require('console');
 
 const db = require(path.join(__dirname, 'db'));
 const auth = require(path.join(__dirname, 'auth'));
@@ -62,7 +61,7 @@ app.use('/public/bootstrap',express.static('./node_modules/bootstrap'));
 app.use('/public/open-iconic',express.static('./node_modules/open-iconic'));
 app.use('/public/highlightjs',express.static('./node_modules/highlightjs'));
 app.use('/public/canvas-confetti',express.static('./node_modules/canvas-confetti'));
-app.use('/public',express.static(path.join(__dirname, 'public'));
+app.use('/public',express.static(path.join(__dirname, 'public')));
 
 
 app.use('/static', (req, res, next) => {
@@ -173,7 +172,6 @@ app.post('/public/locallogin', [
   passport.authenticate('local', { failureRedirect: '/public/authFail.html' })
 ],
 function(req, res) {
-  console.log(req.user);
   if(req.user.userType === "student")
   {
     res.redirect('/main');
@@ -301,7 +299,6 @@ app.post('/api/student_update', auth.ensureApiAuth, (req, res) => {
     studentUpdates.solution_disabled='1';
 
   }
-  console.log(inid, inid[0]);
     studentUpdates.instructor_UN = inid[0]["id"];
   //check if the req is from the instructor account
   db.fetchInstructors(null, function(users){  
@@ -343,7 +340,6 @@ app.get('/challenges/solutions/:challengeId', (req,res) => {
   }
   db.getstudentChallenge(req.user.accountId,null,async(inid)=>{
     var studentChallengeAccess = inid[0]["Challenge"];
-    //console.log(studentChallengeAccess);
     if( studentChallengeAccess === 0){
      res.send("you can't see this solution.");
     }
@@ -516,13 +512,10 @@ app.get('/api/activity',  (req, res) => {
 app.get('/api/students', async (req, res) => {
   db.getinstructorid(req.user.accountId.replace('Local_',''),null,async(inid)=>{
     var instructor_id = "0";
-    console.log(req);
-    console.log(inid);
 
     if (inid && inid[0] && inid[0] != undefined) {
        instructor_id = inid[0]["id"];
     }
-  console.log(instructor_id);
   db.fetchMystudents(null,instructor_id,null,async function(studentsList){
     var don_chan;
     for (let i = 0; i < studentsList.length; i++) {
@@ -538,7 +531,6 @@ app.get('/api/students', async (req, res) => {
       studentsList[i]["Challenges"]=returnChallenges;
     }    
      
-    console.log(studentsList);
     res.send(studentsList);
   });
 });
@@ -562,7 +554,6 @@ app.get('/api/instructoractivity',  (req, res) => {
 app.get('/api/students',  (req, res) => {
 
     var moduleId = "blackBelt";
-  console.log(req.params);
     if(util.isNullOrUndefined(moduleId) || validator.isAlphanumeric(moduleId) == false){
       return util.apiResponse(req, res, 400, "Invalid module id."); 
     }
@@ -687,7 +678,6 @@ app.post('/api/reportUpload', async (req, res) => {
 });
 app.post('/addInstructor', async (req, res) => {
   db.getinstructorid(req.body.instructor,null,async(inid)=>{
-    console.log(inid, inid[0]);
     if (inid && inid[0] && inid[0] != undefined) {
       if(inid[0]["userType"] !== "instructor")
       {
@@ -697,8 +687,7 @@ app.post('/addInstructor', async (req, res) => {
         db.updateuserinstr(inid[0]["id"],req.user.id,null,async(a)=>{
           return util.apiResponse(req,res,200,"User modified.");
           res.send("update successfuly");
-          //Make error
-          //return util.apiResponse(req, res, 200, "User modified.");
+          return util.apiResponse(req, res, 200, "User modified.");
   
         });
       }
