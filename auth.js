@@ -7,7 +7,6 @@ const session = require('express-session');
 const passport = require('passport');
 const validator = require('validator');
 const uid = require('uid-safe');
-const emailValidator = require('deep-email-validator');
 
 const db = require(path.join(__dirname, 'db'));
 const challenges = require(path.join(__dirname, 'challenges'));
