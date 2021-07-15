@@ -185,16 +185,16 @@ app.get("/public/authFailure",(req,res) => {
     res.send('Unable to login');
 });
 
-//TODO 
-// // set up rate limiter: maximum of five requests per minute
-// var RateLimit = require('express-rate-limit');
-// var limiter = new RateLimit({
-//   windowMs: 1*60*1000, // 1 minute
-//   max: 5
-// });
+// set up rate limiter: maximum of five requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter = new RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 5
+});
 
-// // apply rate limiter to all requests
-// app.use(limiter);
+// apply rate limiter to all requests
+app.use("/public/badge/",limiter);
+
 app.get("/public/badge/:code",async(req,res) => {
   var escape = require('escape-html');
   var code = req.params.code;
